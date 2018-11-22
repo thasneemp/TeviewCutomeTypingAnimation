@@ -7,6 +7,8 @@ import android.animation.ValueAnimator;
 import android.annotation.SuppressLint;
 import android.content.Context;
 import android.content.res.TypedArray;
+import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
 import android.graphics.Canvas;
 import android.graphics.Color;
 import android.graphics.Paint;
@@ -37,6 +39,8 @@ public class AnimateTextView extends AppCompatTextView {
     private float xValue;
     private float animateX;
     private float animateTextPosY;
+    private int viewWidth;
+    private int viewHeight;
 
     public AnimateTextView(Context context) {
         super(context);
@@ -97,7 +101,7 @@ public class AnimateTextView extends AppCompatTextView {
         textColor = a.getColor(1, Color.BLACK);
 
 
-        animator.setDuration(1000);
+        animator.setDuration(300);
         setFilters(new InputFilter[]{new InputFilter.LengthFilter(codeLength)});
 
         a.recycle();
@@ -144,12 +148,15 @@ public class AnimateTextView extends AppCompatTextView {
 
 
     private void measureSizes(int viewWidth, int viewHeight) {
+        this.viewWidth = viewWidth;
+        this.viewHeight = viewHeight;
         if (codeLength <= 0) {
             throw new IllegalArgumentException("Char length must be over than zero");
         }
 
         float sectionWidth = viewWidth / (codeLength);
-        textPosY = viewHeight - 50;
+
+        textPosY = viewHeight;
         animateTextPosY = viewHeight - viewHeight / 5;
         int animateInitialX = viewWidth / 2;
         animateX = sectionWidth + sectionWidth / 2 / 2;
@@ -157,7 +164,7 @@ public class AnimateTextView extends AppCompatTextView {
 
         PropertyValuesHolder propertyXValues = PropertyValuesHolder.ofFloat(PROPERTY_X, animateInitialX, animateX);
         PropertyValuesHolder propertyYValues = PropertyValuesHolder.ofFloat(PROPERTY_Y, viewHeight / 2, textPosY);
-        PropertyValuesHolder propertyRadius = PropertyValuesHolder.ofInt(PROPERTY_RADIUS, 250, textSize);
+        PropertyValuesHolder propertyRadius = PropertyValuesHolder.ofInt(PROPERTY_RADIUS, 2000, textSize);
         animator.setValues(propertyRadius, propertyXValues, propertyYValues);
         animator.addListener(new AnimatorListenerAdapter() {
             @Override
@@ -184,14 +191,17 @@ public class AnimateTextView extends AppCompatTextView {
     }
 
     private void drawText(Canvas canvas) {
-        if (getText().length() > 0) {
-            canvas.drawText(getText().toString(), 0, getText().length() - 1, xValue, textPosY, textPaint);
-        }
+        Bitmap bitmap = BitmapFactory.decodeResource(getResources(), R.drawable.card);
+        int viewForeBitmap = viewWidth / 2 - (bitmap.getWidth() / 2);
+
+        canvas.drawBitmap(bitmap, viewForeBitmap, viewForeBitmap, textPaint);
+
         if (getText().length() > 0 && textSize > 47) {
+            canvas.drawText(getText().toString(), 0, getText().length() - 1, xValue + bitmap.getWidth() / 6, bitmap.getHeight() + 40, textPaint);
             textPaint.getTextBounds(getText().toString(), 0, getText().length() - 1, textBounds);
-            canvas.drawText(getText().charAt(getText().length() - 1) + "", 0, 1, xValue + textBounds.right, animateTextPosY, textAnimatePaint);
+            canvas.drawText(getText().charAt(getText().length() - 1) + "", 0, 1, xValue + bitmap.getWidth() / 6 + textBounds.right, bitmap.getHeight() + 40, textAnimatePaint);
         } else {
-            canvas.drawText(getText().toString(), 0, getText().length(), xValue, textPosY, textPaint);
+            canvas.drawText(getText().toString(), 0, getText().length(), xValue + bitmap.getWidth() / 6, bitmap.getHeight() + 40, textPaint);
         }
 
     }

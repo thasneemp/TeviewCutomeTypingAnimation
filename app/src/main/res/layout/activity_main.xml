@@ -6,17 +6,17 @@
     android:layout_height="match_parent"
     tools:context=".MainActivity">
 
-    <android.support.v7.widget.AppCompatImageView
-        android:id="@+id/appCompatImageView2"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginStart="8dp"
-        android:layout_marginTop="8dp"
-        android:layout_marginBottom="8dp"
-        android:src="@drawable/card"
-        app:layout_constraintBottom_toTopOf="@+id/editext"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent" />
+    <!--<android.support.v7.widget.AppCompatImageView-->
+    <!--android:id="@+id/appCompatImageView2"-->
+    <!--android:layout_width="wrap_content"-->
+    <!--android:layout_height="wrap_content"-->
+    <!--android:layout_marginStart="8dp"-->
+    <!--android:layout_marginTop="8dp"-->
+    <!--android:layout_marginBottom="8dp"-->
+    <!--android:src="@drawable/card"-->
+    <!--app:layout_constraintBottom_toTopOf="@+id/editext"-->
+    <!--app:layout_constraintStart_toStartOf="parent"-->
+    <!--app:layout_constraintTop_toTopOf="parent" />-->
 
     <com.example.thasneem.textviewanimation.AnimateTextView
         android:id="@+id/ter"
@@ -24,17 +24,18 @@
         android:layout_height="wrap_content"
         android:layout_marginStart="8dp"
         android:layout_marginEnd="8dp"
+        android:background="@drawable/card"
         android:digits="1234567890"
         android:inputType="phone"
         android:maxLines="1"
         android:overScrollMode="never"
-        android:paddingBottom="50dp"
+        android:paddingBottom="100dp"
         android:singleLine="true"
         android:text=""
-        android:textColor="#ffffff"
-        android:textSize="18sp"
+        android:textColor="#bdffffff"
+        android:textSize="12sp"
         app:char_length="20"
-        app:layout_constraintBottom_toBottomOf="@+id/appCompatImageView2"
+        app:font_family="@font/open_sans_semi_bold"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
